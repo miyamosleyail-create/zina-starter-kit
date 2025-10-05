@@ -202,7 +202,20 @@
     </div>
   </div>
 
-  <footer>Built by Miya Mosley — AO Global Life • Executive Assistant Portal</footer>
-</div>
-</body>
-</html>
+<footer>Built by Miya Mosley — AO Global Life • Executive Assistant Portal</footer>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const footer = document.querySelector("footer");
+    if (footer) {
+      const now = new Date();
+      const options = { year: "numeric", month: "long", day: "numeric" };
+      const formatted = now.toLocaleDateString(undefined, options);
+      const updatedNote = document.createElement("div");
+      updatedNote.style.fontSize = "13px";
+      updatedNote.style.color = "#6b7280";
+      updatedNote.style.marginTop = "6px";
+      updatedNote.textContent = `✅ Last updated: ${formatted}`;
+      footer.appendChild(updatedNote);
+    }
+  });
+</script>
