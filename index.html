@@ -8,6 +8,7 @@
   :root{
     --bg:#f7fafc; --card:#ffffff; --edge:#e5e7eb; --text:#111827; --muted:#4b5563;
     --acc:#0ea5e9; --acc-d:#0284c7; --good:#047857; --warn:#d97706;
+    --amber-bg:#fff7ed; --amber-br:#fed7aa; --amber-text:#7c2d12; --amber-btn:#fef3c7; --amber-btnh:#fde68a;
   }
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif;line-height:1.6}
@@ -33,6 +34,17 @@
   footer{padding:22px;text-align:center;color:var(--muted)}
   .timeline .step{border-left:3px solid var(--warn);padding-left:12px;margin:8px 0}
   .code{background:#f3f4f6;border:1px solid var(--edge);border-radius:10px;padding:12px;white-space:pre-wrap;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
+  .copybar{display:flex;gap:8px;margin-top:8px}
+  .copybar button{border:1px solid var(--edge);background:#f9fafb;border-radius:8px;padding:8px 10px;cursor:pointer}
+  .copybar button:hover{border-color:var(--acc);color:var(--acc)}
+  /* Announcements banner */
+  .announce{display:none;background:var(--amber-bg);border:1px solid var(--amber-br);color:var(--amber-text);
+            border-radius:12px;padding:12px 14px;margin:16px auto 0;max-width:1100px;box-shadow:0 4px 14px rgba(0,0,0,.05)}
+  .announce .row{display:flex;gap:12px;align-items:center;justify-content:space-between}
+  .announce .msg{font-weight:600}
+  .announce a{color:#b45309;text-decoration:underline}
+  .announce button{border:1px solid var(--amber-btnh);background:var(--amber-btn);color:#92400e;padding:6px 10px;border-radius:8px;cursor:pointer}
+  .announce button:hover{background:var(--amber-btnh)}
 </style>
 </head>
 <body>
@@ -42,15 +54,26 @@
   <div class="sub">Light theme • Google Drive links • Built for GitHub Pages</div>
 </header>
 
+<!-- Announcements Banner -->
+<div id="announcement" class="announce" role="region" aria-label="Announcements">
+  <div class="row">
+    <div class="msg" id="announce-text"></div>
+    <div>
+      <a id="announce-link" href="#" style="display:none" target="_blank" rel="noopener">Open</a>
+      <button id="announce-dismiss" type="button" aria-label="Dismiss announcement">Dismiss</button>
+    </div>
+  </div>
+</div>
+
 <div class="wrap">
 
-  <!-- Hot Leads Tracker -->
+  <!-- Hot Leads Tracker (with autosave) -->
   <div class="card">
     <h2>🔥 Hot Leads Today (Top 3)</h2>
     <div class="cols">
-      <div><label>Lead #1</label><input placeholder="Org • Contact • Phone • Next step" /></div>
-      <div><label>Lead #2</label><input placeholder="Org • Contact • Phone • Next step" /></div>
-      <div><label>Lead #3</label><input placeholder="Org • Contact • Phone • Next step" /></div>
+      <div><label for="lead1">Lead #1</label><input id="lead1" placeholder="Org • Contact • Phone • Next step" /></div>
+      <div><label for="lead2">Lead #2</label><input id="lead2" placeholder="Org • Contact • Phone • Next step" /></div>
+      <div><label for="lead3">Lead #3</label><input id="lead3" placeholder="Org • Contact • Phone • Next step" /></div>
     </div>
     <div class="callout"><b>Reminder:</b> Log every touch in the Lead Tracker and push to book 1 strategy call daily.</div>
   </div>
@@ -59,127 +82,196 @@
   <div class="card">
     <h2>Sequence of Events (Daily → Weekly → Monthly)</h2>
     <div class="timeline">
-      <div class="step"><b>Daily (4 hrs):</b> 1) Open this page + files → 2) Send 10 emails → 3) Send 10 DMs → 4) Follow-ups & book via Calendly → 5) Update Lead Tracker → 6) Submit EOD.</div>
-      <div class="step"><b>Weekly:</b> Roll up numbers to Weekly Dashboard, compare to KPI Scorecard targets, share wins & blockers.</div>
+      <div class="step"><b>Daily (4 hrs):</b> 1) Open this page + files → 2) Send 10 emails → 3) Send 10 DMs → 4) Follow-ups & book via Calendly → 5) Update Lead Tracker → 6) Submit Combined KPI+EOD.</div>
+      <div class="step"><b>Weekly:</b> Roll up numbers to Weekly Dashboard, compare to KPI targets, share wins & blockers.</div>
       <div class="step"><b>Monthly:</b> Bonuses on policies closed / recruits licensed from your outreach; stretch bonus for activity + outcomes.</div>
     </div>
     <div class="callout"><b>Today’s KPI:</b> <span class="kpi">60–80 touches</span> and <span class="kpi">1 booked call</span>.</div>
   </div>
 
   <!-- Quick Links -->
-  <div class="grid">
-    <div class="card">
-      <h2>Quick Links</h2>
-      <div class="btn-row">
-        <a class="btn" href="https://calendly.com/myfambenefits/strategy-call" target="_blank">Strategy Call (Calendly)</a>
-        <a class="btn" href="https://drive.google.com/file/d/1Bp4l-L_C_wjz9qgJMGXVqeqErI8rQT-n/view?usp=drive_link" target="_blank">Comp & Workflow (PDF)</a>
-        <a class="btn" href="https://docs.google.com/spreadsheets/d/1Uf0WODXb7ySiTIuiQcYxH1e-O0qBicqJ/edit?usp=sharing&ouid=109934561399746431939&rtpof=true&sd=true" target="_blank">Lead Tracker (250)</a>
-        <a class="btn" href="https://docs.google.com/spreadsheets/d/1qX0h_aEFjwBtBKWUXnJlGBBVwZ1tvVBj/edit?usp=sharing&ouid=109934561399746431939&rtpof=true&sd=true" target="_blank">Immediate Leads (50)</a>
-        <a class="btn" href="https://docs.google.com/spreadsheets/d/1yoVAuNSh9prBE5SzbXMVLUIIkj4ABfy6/edit?usp=sharing&ouid=109934561399746431939&rtpof=true&sd=true" target="_blank">EOD Report Template</a>
-        <a class="btn" href="https://docs.google.com/spreadsheets/d/12hxQpjgYeM1EAhcOqUJBaA-jU3pLzjj9/edit?usp=sharing&ouid=109934561399746431939&rtpof=true&sd=true" target="_blank">Weekly Dashboard</a>
-        <a class="btn" href="https://docs.google.com/spreadsheets/d/1cz6QrgfQWEsoV82-ndWiMa8Xbf_nnYNt/edit?usp=sharing&ouid=109934561399746431939&rtpof=true&sd=true" target="_blank">KPI Scorecard (Daily)</a>
-      </div>
-      <p class="muted">If a button opens the wrong doc, update the Google Drive link in this file and commit again.</p>
+  <div class="card">
+    <h2>Quick Links</h2>
+    <div class="btn-row">
+      <a class="btn" href="https://calendly.com/myfambenefits/strategy-call" target="_blank">Strategy Call (Calendly)</a>
+      <a class="btn" href="https://docs.google.com/spreadsheets/d/1Uf0WODXb7ySiTIuiQcYxH1e-O0qBicqJ/edit?usp=sharing&ouid=109934561399746431939&rtpof=true&sd=true" target="_blank">Lead Tracker (250)</a>
+      <a class="btn" href="https://docs.google.com/spreadsheets/d/1qX0h_aEFjwBtBKWUXnJlGBBVwZ1tvVBj/edit?usp=sharing&ouid=109934561399746431939&rtpof=true&sd=true" target="_blank">Immediate Leads (50)</a>
+      <a class="btn" href="https://docs.google.com/spreadsheets/d/13tjCU93zXWMkE3_ZAjnQeLJQ_sqa0j71/edit?usp=sharing&ouid=109934561399746431939&rtpof=true&sd=true" target="_blank">Combined KPI + EOD Tracker</a>
+      <a class="btn" href="https://docs.google.com/spreadsheets/d/12hxQpjgYeM1EAhcOqUJBaA-jU3pLzjj9/edit?usp=sharing&ouid=109934561399746431939&rtpof=true&sd=true" target="_blank">Weekly Dashboard</a>
+      <a class="btn" href="https://drive.google.com/file/d/1Bp4l-L_C_wjz9qgJMGXVqeqErI8rQT-n/view?usp=drive_link" target="_blank">Comp & Workflow (PDF)</a>
     </div>
+    <p class="muted">All key resources open in new tabs. Track leads daily, log activity in the Combined KPI + EOD, and review trends weekly.</p>
+  </div>
 
+  <!-- Start Here & Resources -->
+  <div class="grid">
     <div class="card">
       <h2>Start Here (Daily Flow)</h2>
       <ol class="tight">
         <li>Open <b>Immediate Leads (50)</b> and send first wave of emails + DMs.</li>
         <li>Open <b>Lead Tracker (250)</b> and log every touch (email/DM/follow-up).</li>
-        <li>Use scripts below; personalize org + contact name.</li>
+        <li>Use the <b>Email & DM Templates</b> below; personalize org + contact name.</li>
         <li>Book qualified calls using <b>Strategy Call</b> link.</li>
-        <li>Submit the <b>EOD Report</b> and set tomorrow’s targets.</li>
+        <li>Submit the <b>Combined KPI + EOD</b> at end of shift.</li>
       </ol>
+    </div>
+
+    <div class="card">
+      <h2>Resources — How / Why / When</h2>
+      <details open>
+        <summary>Lead Tracker (250)</summary>
+        <div>
+          <a class="btn" href="https://docs.google.com/spreadsheets/d/1Uf0WODXb7ySiTIuiQcYxH1e-O0qBicqJ/edit?usp=sharing&ouid=109934561399746431939&rtpof=true&sd=true" target="_blank">Open Lead Tracker</a>
+          <ul>
+            <li><b>How:</b> Log every email, DM, follow-up, response, and booking. Stages: New → Contacted → Replied → Booked → Closed/Nurture.</li>
+            <li><b>Why:</b> If it’s not logged, it didn’t happen — this is the source of truth.</li>
+            <li><b>When:</b> Live during the shift; final check before EOD.</li>
+          </ul>
+        </div>
+      </details>
+      <details>
+        <summary>Immediate Leads (50)</summary>
+        <div>
+          <a class="btn" href="https://docs.google.com/spreadsheets/d/1qX0h_aEFjwBtBKWUXnJlGBBVwZ1tvVBj/edit?usp=sharing&ouid=109934561399746431939&rtpof=true&sd=true" target="_blank">Open Immediate Leads</a>
+          <ul>
+            <li><b>How:</b> Start here. Send 20–30 messages (email + DM), then expand to new research.</li>
+            <li><b>Why:</b> Jump-starts productivity on Day 1 and every morning.</li>
+            <li><b>When:</b> First hour daily, then mix in fresh prospects.</li>
+          </ul>
+        </div>
+      </details>
+      <details>
+        <summary>Combined KPI + EOD Tracker</summary>
+        <div>
+          <a class="btn" href="https://docs.google.com/spreadsheets/d/13tjCU93zXWMkE3_ZAjnQeLJQ_sqa0j71/edit?usp=sharing&ouid=109934561399746431939&rtpof=true&sd=true" target="_blank">Open KPI + EOD</a>
+          <ul>
+            <li><b>How:</b> Log metrics (emails/DMs/follow-ups/booked/ALP) and fill wins, challenges, plan.</li>
+            <li><b>Why:</b> One place for daily accountability + outcomes.</li>
+            <li><b>When:</b> Last 10 minutes of every shift (non-negotiable).</li>
+          </ul>
+        </div>
+      </details>
+      <details>
+        <summary>Weekly Dashboard</summary>
+        <div>
+          <a class="btn" href="https://docs.google.com/spreadsheets/d/12hxQpjgYeM1EAhcOqUJBaA-jU3pLzjj9/edit?usp=sharing&ouid=109934561399746431939&rtpof=true&sd=true" target="_blank">Open Weekly Dashboard</a>
+          <ul>
+            <li><b>How:</b> Sum the week’s metrics from Lead Tracker + EOD.</li>
+            <li><b>Why:</b> See trends and pipeline health at a glance.</li>
+            <li><b>When:</b> Every Friday before EOD.</li>
+          </ul>
+        </div>
+      </details>
+      <details>
+        <summary>Comp & Workflow</summary>
+        <div>
+          <a class="btn" href="https://drive.google.com/file/d/1Bp4l-L_C_wjz9qgJMGXVqeqErI8rQT-n/view?usp=drive_link" target="_blank">Open PDF</a>
+          <ul>
+            <li><b>How:</b> Read at the start of each week; follow the 4-hour block structure daily.</li>
+            <li><b>Why:</b> Focuses time on actions that generate appointments and results.</li>
+            <li><b>When:</b> Day 1, then weekly refresh; reference KPIs daily.</li>
+          </ul>
+        </div>
+      </details>
     </div>
   </div>
 
-  <!-- Resources with How/Why/When -->
+  <!-- FULL Email & DM Templates (Zina voice) -->
   <div class="card">
-    <h2>Resources — How / Why / When</h2>
+    <h2>Email & DM Templates (Copy/Paste)</h2>
 
     <details open>
-      <summary>Comp & Workflow (PDF)</summary>
-      <div>
-        <a class="btn" href="https://drive.google.com/file/d/1Bp4l-L_C_wjz9qgJMGXVqeqErI8rQT-n/view?usp=drive_link" target="_blank">Open PDF</a>
-        <ul>
-          <li><b>How:</b> Read at the start of each week; follow the 4-hour block structure daily.</li>
-          <li><b>Why:</b> Focuses time on actions that generate appointments and results.</li>
-          <li><b>When:</b> Day 1, then weekly refresh; reference KPIs daily.</li>
-        </ul>
+      <summary>Church Partnership — Full Email</summary>
+      <div class="code" id="churchEmail">
+Subject: Partnership opportunity to empower local families
+
+Hi [Pastor Last Name],
+
+My name is Zina [Last Name], and I’m the Executive Assistant to Miya Mosley, a local licensed life insurance agent and financial educator here in South Carolina.
+
+Miya partners with churches to provide free Family Protection Workshops—focused on helping families strengthen their financial foundation and create generational security. These sessions are purely educational and have been impactful for congregations across the state.
+
+Would you be open to a brief conversation to discuss what this could look like at your church?
+You can schedule a short call here: https://calendly.com/myfambenefits/strategy-call
+
+Warm regards,
+Zina [Last Name]
+Executive Assistant to Miya Mosley
+(980) 982-3214 • MiyaMosley@aoglobelife.com
       </div>
+      <div class="copybar"><button onclick="copyText('churchEmail')">Copy Email</button></div>
     </details>
 
     <details>
-      <summary>Lead Tracker (250)</summary>
-      <div>
-        <a class="btn" href="https://docs.google.com/spreadsheets/d/1Uf0WODXb7ySiTIuiQcYxH1e-O0qBicqJ/edit?usp=sharing&ouid=109934561399746431939&rtpof=true&sd=true" target="_blank">Open Lead Tracker</a>
-        <ul>
-          <li><b>How:</b> Log every email, DM, follow-up, response, and booking. Stages: New → Contacted → Replied → Booked → Closed/Nurture.</li>
-          <li><b>Why:</b> If it’s not logged, it didn’t happen — this is the source of truth.</li>
-          <li><b>When:</b> Live during the shift; final check before EOD.</li>
-        </ul>
+      <summary>Builder / Developer — Full Email</summary>
+      <div class="code" id="builderEmail">
+Subject: Partnership idea — helping new homeowners stay protected
+
+Hi [Name],
+
+I’m Zina [Last Name], Executive Assistant to Miya Mosley, a licensed insurance agent and financial educator serving families across South Carolina.
+
+Miya partners with builders and developers to offer complimentary Home Protection and Mortgage Safety education for new homeowners—helping them protect their investment and families long-term. These short sessions (virtual or in-person) add value for your buyers and build goodwill after closings.
+
+Would you be open to a 10–15 minute call to explore a potential partnership?
+Here’s Miya’s calendar to pick a time: https://calendly.com/myfambenefits/strategy-call
+
+Best regards,
+Zina [Last Name]
+Executive Assistant to Miya Mosley
+(980) 982-3214 • MiyaMosley@aoglobelife.com
       </div>
+      <div class="copybar"><button onclick="copyText('builderEmail')">Copy Email</button></div>
     </details>
 
     <details>
-      <summary>Immediate Leads (50)</summary>
-      <div>
-        <a class="btn" href="https://docs.google.com/spreadsheets/d/1qX0h_aEFjwBtBKWUXnJlGBBVwZ1tvVBj/edit?usp=sharing&ouid=109934561399746431939&rtpof=true&sd=true" target="_blank">Open Immediate Leads</a>
-        <ul>
-          <li><b>How:</b> Start here. Send 20–30 messages (email + DM), then expand to new research.</li>
-          <li><b>Why:</b> Jump-starts productivity on Day 1 and every morning.</li>
-          <li><b>When:</b> First hour daily, then mix in fresh prospects.</li>
-        </ul>
+      <summary>Realtor / Real Estate Office — Full Email</summary>
+      <div class="code" id="realtorEmail">
+Subject: Collaborating to help homeowners protect their new investment
+
+Hi [Name],
+
+My name is Zina [Last Name], and I assist Miya Mosley, a South Carolina-based licensed life insurance agent and financial educator.
+
+Miya partners with real estate agents and brokers to provide educational sessions and resources that help families protect their new homes, income, and future. It’s a practical way to add value for your clients and deepen relationships beyond closing day.
+
+Would you be open to a quick call to explore a collaboration?
+Schedule here: https://calendly.com/myfambenefits/strategy-call
+
+Warm regards,
+Zina [Last Name]
+Executive Assistant to Miya Mosley
+(980) 982-3214 • MiyaMosley@aoglobelife.com
       </div>
+      <div class="copybar"><button onclick="copyText('realtorEmail')">Copy Email</button></div>
     </details>
 
     <details>
-      <summary>EOD Report Template</summary>
-      <div>
-        <a class="btn" href="https://docs.google.com/spreadsheets/d/1yoVAuNSh9prBE5SzbXMVLUIIkj4ABfy6/edit?usp=sharing&ouid=109934561399746431939&rtpof=true&sd=true" target="_blank">Open EOD Template</a>
-        <ul>
-          <li><b>How:</b> Fill: hours, emails, DMs, follow-ups, bookings, wins, blockers, plan for tomorrow.</li>
-          <li><b>Why:</b> Daily accountability and visibility; no surprises.</li>
-          <li><b>When:</b> Last 10 minutes of every shift (non-negotiable).</li>
-        </ul>
+      <summary>Follow-Up (Any Vertical) — Full Email</summary>
+      <div class="code" id="followEmail">
+Subject: Just following up on my message from last week
+
+Hi [Name],
+
+I wanted to quickly follow up to see if you had a chance to review my note about a possible partnership with Miya Mosley. She’s passionate about helping local families protect their homes and financial futures, and I’d love to schedule a quick call to see if there’s alignment.
+
+Would you be open to a brief conversation this week?
+
+Warm regards,
+Zina [Last Name]
+Executive Assistant to Miya Mosley
+(980) 982-3214 • MiyaMosley@aoglobelife.com
       </div>
+      <div class="copybar"><button onclick="copyText('followEmail')">Copy Email</button></div>
     </details>
 
     <details>
-      <summary>Weekly Dashboard</summary>
-      <div>
-        <a class="btn" href="https://docs.google.com/spreadsheets/d/12hxQpjgYeM1EAhcOqUJBaA-jU3pLzjj9/edit?usp=sharing&ouid=109934561399746431939&rtpof=true&sd=true" target="_blank">Open Weekly Dashboard</a>
-        <ul>
-          <li><b>How:</b> Sum the week’s metrics from Lead Tracker + EOD.</li>
-          <li><b>Why:</b> See trends and pipeline health at a glance.</li>
-          <li><b>When:</b> Every Friday before EOD.</li>
-        </ul>
+      <summary>DM Short Scripts (LinkedIn / FB / IG)</summary>
+      <div class="code" id="dmShort">
+Hi [Name] — I support Miya Mosley, a local life insurance agent & educator. We partner with [churches/builders/realtors] to host short sessions that help families protect homes & income. Open to a 10–15 min chat? https://calendly.com/myfambenefits/strategy-call
       </div>
+      <div class="copybar"><button onclick="copyText('dmShort')">Copy DM</button></div>
     </details>
-
-    <details>
-      <summary>KPI Scorecard (Daily)</summary>
-      <div>
-        <a class="btn" href="https://docs.google.com/spreadsheets/d/1cz6QrgfQWEsoV82-ndWiMa8Xbf_nnYNt/edit?usp=sharing&ouid=109934561399746431939&rtpof=true&sd=true" target="_blank">Open KPI Scorecard</a>
-        <ul>
-          <li><b>How:</b> Compare actuals to targets (20 outreaches/day, 1 appt/day, 3 responses/day — editable).</li>
-          <li><b>Why:</b> Clear signal: Hit / Miss / Exceed.</li>
-          <li><b>When:</b> End of each day; roll-up weekly.</li>
-        </ul>
-      </div>
-    </details>
-  </div>
-
-  <!-- Scripts section (compact like 90-day page) -->
-  <div class="card">
-    <h2>Email & DM Scripts (Quick Copy)</h2>
-    <details open><summary>Daycare — Email Subject</summary><div class="code">70% of parents don’t have this for their kids — we can help</div></details>
-    <details><summary>Church — Email Subject</summary><div class="code">1 in 2 families face this — let’s protect your congregation</div></details>
-    <details><summary>Builder/Mortgage — Email Subject</summary><div class="code">Every 26 seconds a home is lost — let’s protect your buyers</div></details>
-    <details><summary>Small Business — Email Subject</summary><div class="code">78% of employees stay longer with this benefit</div></details>
-    <details><summary>DM Short Scripts (LinkedIn/FB/IG)</summary><div class="code">Use the 2–3 line versions from your kit; end with Calendly link.</div></details>
-    <p class="muted">Tip: Keep messages short, lead with their benefit, end with a question + your Calendly link.</p>
   </div>
 
   <!-- FAQ -->
@@ -187,8 +279,8 @@
     <div class="card">
       <h2>Reporting Rhythm</h2>
       <ul class="tight">
-        <li><b>Daily:</b> Submit EOD + ensure Lead Tracker is up to date.</li>
-        <li><b>Weekly:</b> Update Weekly Dashboard + KPI Scorecard; share wins & blockers.</li>
+        <li><b>Daily:</b> Update Lead Tracker and submit the Combined KPI + EOD.</li>
+        <li><b>Weekly:</b> Update Weekly Dashboard; share wins & blockers.</li>
         <li><b>Monthly:</b> Confirm attribution for closed policies / recruits for bonus payout.</li>
       </ul>
     </div>
@@ -196,26 +288,87 @@
     <div class="card">
       <h2>FAQ</h2>
       <details><summary>Only a contact form?</summary><div>Submit the form <i>and</i> send a short DM on FB/LinkedIn for a second touch. Log both in the tracker.</div></details>
-      <details><summary>How to book Miya?</summary><div>Use the Strategy Call link: <a href="https://calendly.com/myfambenefits/strategy-call" target="_blank">Calendly</a>. Add key notes from the form into the tracker.</div></details>
+      <details><summary>How to book Miya?</summary><div>Use the Strategy Call link above and add key notes into the tracker.</div></details>
       <details><summary>“Not now” response?</summary><div>Mark “Nurture”, set a follow-up in 30 days, and keep moving.</div></details>
-      <details><summary>What counts for bonuses?</summary><div>Results-based: policies closed or recruits licensed sourced from your outreach (paid at month end once production clears).</div></details>
+      <details><summary>What counts for bonuses?</summary><div>Results-based: policies closed or recruits licensed sourced from your outreach (paid once production clears).</div></details>
     </div>
   </div>
 
-<footer>Built by Miya Mosley — AO Global Life • Executive Assistant Portal</footer>
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const footer = document.querySelector("footer");
-    if (footer) {
+  <footer>Built by Miya Mosley — AO Global Life • Executive Assistant Portal</footer>
+
+  <script>
+    // ===== Last updated footer =====
+    (function() {
+      const footer = document.querySelector("footer");
+      if (!footer) return;
       const now = new Date();
-      const options = { year: "numeric", month: "long", day: "numeric" };
-      const formatted = now.toLocaleDateString(undefined, options);
-      const updatedNote = document.createElement("div");
-      updatedNote.style.fontSize = "13px";
-      updatedNote.style.color = "#6b7280";
-      updatedNote.style.marginTop = "6px";
-      updatedNote.textContent = `✅ Last updated: ${formatted}`;
-      footer.appendChild(updatedNote);
+      const fmt = now.toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" });
+      const div = document.createElement("div");
+      div.style.fontSize = "13px"; div.style.color = "#6b7280"; div.style.marginTop = "6px";
+      div.textContent = `✅ Last updated: ${fmt}`;
+      footer.appendChild(div);
+    })();
+
+    // ===== Copy helper for code blocks =====
+    function copyText(id){
+      const el = document.getElementById(id);
+      if(!el) return;
+      const txt = el.innerText;
+      navigator.clipboard.writeText(txt).then(()=>alert("Copied to clipboard"));
     }
-  });
-</script>
+
+    // ===== Hot Leads autosave (localStorage) =====
+    (function() {
+      const ids = ["lead1","lead2","lead3"];
+      ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const key = "hotlead-"+id;
+        // load
+        const saved = localStorage.getItem(key);
+        if (saved) el.value = saved;
+        // save on change
+        el.addEventListener("input", ()=> localStorage.setItem(key, el.value || ""));
+      });
+    })();
+
+    // ===== Announcements Banner =====
+    (function() {
+      // CONFIG: edit each announcement
+      const bannerVersion = "2025-10-06a";            // bump when posting new announcement
+      const announceMessage = "🚀 Start-of-week goals: 60–80 touches and 1 booked call. New templates live below.";
+      const announceLink = "https://docs.google.com/spreadsheets/d/13tjCU93zXWMkE3_ZAjnQeLJQ_sqa0j71/edit?usp=sharing";
+      const startDate = "2025-10-06";                 // YYYY-MM-DD inclusive
+      const endDate   = "2025-10-09";                 // YYYY-MM-DD inclusive
+
+      const key = "announce-dismissed-v";
+      const dismissed = localStorage.getItem(key);
+      if (dismissed === bannerVersion) return;
+
+      const today = new Date(); today.setHours(0,0,0,0);
+      const s = new Date(startDate); s.setHours(0,0,0,0);
+      const e = new Date(endDate);   e.setHours(23,59,59,999);
+      if (isNaN(s) || isNaN(e) || today < s || today > e) return;
+
+      const wrap = document.getElementById("announcement");
+      const msg  = document.getElementById("announce-text");
+      const link = document.getElementById("announce-link");
+      const btn  = document.getElementById("announce-dismiss");
+      if (!wrap || !msg || !btn) return;
+
+      msg.textContent = announceMessage;
+      if (announceLink && link) {
+        link.href = announceLink;
+        link.style.display = "inline-block";
+      }
+      wrap.style.display = "block";
+
+      btn.addEventListener("click", function() {
+        localStorage.setItem(key, bannerVersion);
+        wrap.style.display = "none";
+      });
+    })();
+  </script>
+</div>
+</body>
+</html>
